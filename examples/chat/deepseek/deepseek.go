@@ -12,16 +12,17 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/liusuxian/go-aisdk"
-	"github.com/liusuxian/go-aisdk/consts"
-	"github.com/liusuxian/go-aisdk/errors"
-	"github.com/liusuxian/go-aisdk/httpclient"
-	"github.com/liusuxian/go-aisdk/models"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/liusuxian/go-aisdk"
+	"github.com/liusuxian/go-aisdk/consts"
+	"github.com/liusuxian/go-aisdk/errors"
+	"github.com/liusuxian/go-aisdk/httpclient"
+	"github.com/liusuxian/go-aisdk/models"
 )
 
 func getApiKeys(envKey string) (apiKeys string) {
@@ -157,14 +158,16 @@ func main() {
 		log.Printf("Failed to create config directory: %v", err)
 		return
 	}
+
 	configData := `{
-  "providers": {
-    "deepseek": {
-			"base_url": "https://api.deepseek.com",
-      "api_keys": [%v]
-    }
-  }
-}`
+		"providers": {
+			"deepseek": {
+				"base_url": "https://api.deepseek.com",
+				"api_keys": [%v]
+			}
+		}
+	}`
+
 	configData = fmt.Sprintf(configData, getApiKeys("DEEPSEEK_API_KEYS"))
 	log.Printf("configData: %s", configData)
 	if err := os.WriteFile(configPath, []byte(configData), 0644); err != nil {
