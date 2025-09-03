@@ -26,15 +26,21 @@ import (
 )
 
 func getApiKeys(envKey string) (apiKeys string) {
-	list := strings.Split(os.Getenv(envKey), ",")
-	for i, v := range list {
-		if i == 0 {
-			apiKeys = fmt.Sprintf(`"%s"`, v)
-		} else {
-			apiKeys = fmt.Sprintf(`%s,"%s"`, apiKeys, v)
-		}
-	}
-	return
+    raw := strings.TrimSpace(os.Getenv(envKey))
+    if raw == "" {
+        log.Fatal("DEEPSEEK_API_KEYS is empty. Set it first, e.g. PowerShell: $env:DEEPSEEK_API_KEYS=\"sk-xxxxxxxx\"")
+    }
+    parts := strings.Split(raw, ",")
+    quoted := make([]string, 0, len(parts))
+    for _, p := range parts {
+        if v := strings.TrimSpace(p); v != "" {
+            quoted = append(quoted, fmt.Sprintf(`"%s"`, v))
+        }
+    }
+    if len(quoted) == 0 {
+        log.Fatal("DEEPSEEK_API_KEYS contains no valid keys after filtering empties. Example: sk-xxxxxxxx or sk-xxx1,sk-xxx2")
+    }
+    return strings.Join(quoted, ",")
 }
 
 func isError(err error) {
