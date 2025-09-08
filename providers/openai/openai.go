@@ -11,22 +11,23 @@ package openai
 
 import (
 	"context"
-	"github.com/liusuxian/go-aisdk/conf"
-	"github.com/liusuxian/go-aisdk/consts"
-	"github.com/liusuxian/go-aisdk/core"
-	"github.com/liusuxian/go-aisdk/httpclient"
-	"github.com/liusuxian/go-aisdk/loadbalancer"
-	"github.com/liusuxian/go-aisdk/models"
-	"github.com/liusuxian/go-aisdk/providers/common"
 	"net/http"
+
+	"github.com/Mrzhouyl/go-aisdk/conf"
+	"github.com/Mrzhouyl/go-aisdk/consts"
+	"github.com/Mrzhouyl/go-aisdk/core"
+	"github.com/Mrzhouyl/go-aisdk/httpclient"
+	"github.com/Mrzhouyl/go-aisdk/loadbalancer"
+	"github.com/Mrzhouyl/go-aisdk/models"
+	"github.com/Mrzhouyl/go-aisdk/providers/common"
 )
 
 // openAIProvider OpenAI提供商
 type openAIProvider struct {
 	core.DefaultProviderService
 	supportedModels map[consts.ModelType]map[string]consts.ModelFeature // 支持的模型
-	providerConfig  *conf.ProviderConfig                 // 提供商配置
-	lb              *loadbalancer.LoadBalancer           // 负载均衡器
+	providerConfig  *conf.ProviderConfig                                // 提供商配置
+	lb              *loadbalancer.LoadBalancer                          // 负载均衡器
 }
 
 var (
